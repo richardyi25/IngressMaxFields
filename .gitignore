@@ -1,0 +1,9 @@
+*.png
+*.svg
+*.aux
+*.log
+*.tex
+*.pdf
+*.csv
+
+__pycache__/
