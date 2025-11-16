@@ -21,7 +21,7 @@ class Point:
 		self.long = lo
 		self.x = xx
 		self.y = yy
-		self.name = n
+		self.name = n.replace('&', '\\&')
 
 	def __str__(self):
 		return '%s: (%f, %f)' % (self.name, self.x, self.y)
@@ -312,7 +312,7 @@ class MaxField:
 		sorted_lines = []
 		for i in range(len(sorted_points) - 1):
 			sorted_lines.append((sorted_points[i], sorted_points[i + 1], 0))
-		print(best[0], best[1])
+		# print(best[0], best[1])
 
 		Render.render_svg(sorted_points, best[5], False, 'key_scout')
 		Render.render_svg(sorted_points, sorted_lines, False, 'field_order')
@@ -393,7 +393,7 @@ class Render:
 		''' % '\\\\\n\n'.join(map(
 			lambda row: '&'.join(
 				map(
-					lambda col: str(col).replace('&', '\\&')[:50],
+					lambda col: str(col)[:50],
 					('$\\square$',) + row
 				)
 			),
@@ -429,6 +429,7 @@ class Render:
 if __name__ == '__main__':
 	arg_parser = argparse.ArgumentParser()
 	arg_parser.add_argument('filename', nargs='?', default='points.csv')
+	arg_parser.add_argument('-n', default=1000, type=int)
 	args = arg_parser.parse_args()
 
-	MaxField.compute(args.filename, 1000)
+	MaxField.compute(args.filename, args.n)
